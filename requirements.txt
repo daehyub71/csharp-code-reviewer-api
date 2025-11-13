@@ -1,0 +1,30 @@
+# C# Code Reviewer (API Version) - Python Dependencies
+
+# Core Dependencies
+PySide6==6.10.0  # Qt6 Python bindings for GUI
+
+# API Clients (choose one or both)
+openai>=1.0.0  # OpenAI GPT API
+anthropic>=0.40.0  # Anthropic Claude API
+python-dotenv==1.2.1  # Environment variable management
+
+# Markdown & Rendering
+markdown==3.10  # Markdown parsing
+pygments==2.19.2  # Syntax highlighting
+
+# Database
+# SQLite is built-in
+
+# Charting
+matplotlib>=3.8.0  # Chart generation for integrated reports
+
+# Development & Testing
+pytest==8.4.2  # Testing framework
+pytest-qt==4.5.0  # Qt testing support
+pytest-cov==7.0.0  # Coverage reporting
+
+# Build & Packaging
+PyInstaller==6.16.0  # Executable packaging
+
+# Utilities
+requests>=2.31.0  # HTTP requests

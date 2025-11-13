@@ -1,0 +1,116 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# PySide6 / Qt
+*.qmlc
+*.jsc
+.qmake.stash
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.autosave
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment variables
+.env
+
+# Logs
+*.log
+logs/
+
+# Application specific
+config/settings.json
+reports/
+*.db
+*.sqlite
+*.sqlite3
+
+# Build artifacts
+CodeReviewer.exe
+CodeReviewer_Portable/
+*.tar.gz
+*.zip
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Test output files
+test_*.html
+test_*.md
+test_*.png
+test_*.css
+code_review_*.html
+code_review_*.md
+
+# Resources (generated)
+resources/cache/
+resources/temp/
