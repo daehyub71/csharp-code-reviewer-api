@@ -11,8 +11,8 @@ from typing import Generator, Optional, Dict, Any, Literal
 import logging
 from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+# Load environment variables (override system env vars)
+load_dotenv(override=True)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -59,11 +59,30 @@ class APIClient:
     # Model configurations
     MODELS = {
         'openai': {
+            # GPT-5 Series (Latest)
+            'gpt-5.1': {'max_tokens': 16384, 'context_window': 128000},
+            'gpt-5': {'max_tokens': 16384, 'context_window': 128000},
+            'gpt-5-mini': {'max_tokens': 16384, 'context_window': 128000},
+            'gpt-5-nano': {'max_tokens': 16384, 'context_window': 128000},
+            'gpt-5.1-chat-latest': {'max_tokens': 16384, 'context_window': 128000},
+            'gpt-5-chat-latest': {'max_tokens': 16384, 'context_window': 128000},
+            'gpt-5.1-codex': {'max_tokens': 16384, 'context_window': 128000},
+            'gpt-5-codex': {'max_tokens': 16384, 'context_window': 128000},
+            'gpt-5-pro': {'max_tokens': 16384, 'context_window': 128000},
+            # GPT-4.1 Series
+            'gpt-4.1': {'max_tokens': 16384, 'context_window': 128000},
+            'gpt-4.1-mini': {'max_tokens': 16384, 'context_window': 128000},
+            'gpt-4.1-nano': {'max_tokens': 16384, 'context_window': 128000},
+            # GPT-4 Series
             'gpt-4': {'max_tokens': 8192, 'context_window': 8192},
             'gpt-4-turbo': {'max_tokens': 4096, 'context_window': 128000},
             'gpt-4o': {'max_tokens': 4096, 'context_window': 128000},
+            'gpt-4o-2024-05-13': {'max_tokens': 4096, 'context_window': 128000},
             'gpt-4o-mini': {'max_tokens': 16384, 'context_window': 128000},
+            # GPT-3.5 Series
             'gpt-3.5-turbo': {'max_tokens': 4096, 'context_window': 16385},
+            # Realtime API
+            'gpt-realtime': {'max_tokens': 4096, 'context_window': 128000},
         },
         'anthropic': {
             'claude-3-5-sonnet-20241022': {'max_tokens': 8192, 'context_window': 200000},
@@ -229,13 +248,24 @@ class APIClient:
             start_time = time.time()
 
             if self.provider == 'openai':
-                response = self.client.chat.completions.create(
-                    model=self.model_name,
-                    messages=[{"role": "user", "content": prompt}],
-                    temperature=self.temperature,
-                    max_tokens=self.max_tokens,
-                    stream=True
-                )
+                # GPT-5 and GPT-4.1 series use different parameters
+                if self.model_name.startswith(('gpt-5', 'gpt-4.1')):
+                    # GPT-5 series: use max_completion_tokens, no temperature parameter
+                    response = self.client.chat.completions.create(
+                        model=self.model_name,
+                        messages=[{"role": "user", "content": prompt}],
+                        max_completion_tokens=self.max_tokens,
+                        stream=True
+                    )
+                else:
+                    # GPT-4 and older: use max_tokens and temperature
+                    response = self.client.chat.completions.create(
+                        model=self.model_name,
+                        messages=[{"role": "user", "content": prompt}],
+                        temperature=self.temperature,
+                        max_tokens=self.max_tokens,
+                        stream=True
+                    )
 
                 for chunk in response:
                     if chunk.choices[0].delta.content:
@@ -273,13 +303,24 @@ class APIClient:
             start_time = time.time()
 
             if self.provider == 'openai':
-                response = self.client.chat.completions.create(
-                    model=self.model_name,
-                    messages=[{"role": "user", "content": prompt}],
-                    temperature=self.temperature,
-                    max_tokens=self.max_tokens,
-                    stream=False
-                )
+                # GPT-5 and GPT-4.1 series use different parameters
+                if self.model_name.startswith(('gpt-5', 'gpt-4.1')):
+                    # GPT-5 series: use max_completion_tokens, no temperature parameter
+                    response = self.client.chat.completions.create(
+                        model=self.model_name,
+                        messages=[{"role": "user", "content": prompt}],
+                        max_completion_tokens=self.max_tokens,
+                        stream=False
+                    )
+                else:
+                    # GPT-4 and older: use max_tokens and temperature
+                    response = self.client.chat.completions.create(
+                        model=self.model_name,
+                        messages=[{"role": "user", "content": prompt}],
+                        temperature=self.temperature,
+                        max_tokens=self.max_tokens,
+                        stream=False
+                    )
                 response_text = response.choices[0].message.content
 
             elif self.provider == 'anthropic':

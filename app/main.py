@@ -21,8 +21,8 @@ from PySide6.QtWidgets import QApplication, QMessageBox
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables from .env file (override system env vars)
+load_dotenv(override=True)
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
